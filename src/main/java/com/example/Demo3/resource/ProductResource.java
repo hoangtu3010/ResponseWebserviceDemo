@@ -35,7 +35,7 @@ public class ProductResource {
 
     @PUT
     @Path("{id}")
-    public Product update(@PathParam("id") Integer id, Product product){
+    public Boolean update(@PathParam("id") Integer id, Product product){
         return productRepository.update(id, product);
     }
 

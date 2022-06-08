@@ -348,7 +348,7 @@ public class GenericModel<T> {
      * @return true nếu cập nhật thành công và ngược lại.
      * @author dTeUv
      */
-    public boolean update(T id, T obj) {
+    public Boolean update(Integer id, T obj) {
         Field[] fields = clazz.getDeclaredFields();
 
         StringBuilder sqlStringBuilder = new StringBuilder();
@@ -401,6 +401,7 @@ public class GenericModel<T> {
             Statement stt = connection.createStatement();
             stt.execute(sqlStringBuilder.toString());
             System.out.println("Action success");
+            return true;
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
@@ -415,7 +416,7 @@ public class GenericModel<T> {
      * @return true nếu xóa thành công và ngược lại.
      * @author dTeUv
      */
-    public boolean delete(T id) {
+    public boolean delete(Integer id) {
         String sqlStringBuilder = SQLConfig.DELETE +
                 SQLConfig.SPACE +
                 tableName +

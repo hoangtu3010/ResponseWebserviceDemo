@@ -1,65 +1,52 @@
 package com.example.Demo3.repository;
 
 import com.example.Demo3.entity.Product;
+import com.example.Demo3.model.GenericModel;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ProductRepository implements IProductRepository{
-    public static List<Product> productList = new ArrayList<>();
+    private final GenericModel<Product> productModel = new GenericModel<>(Product.class);
 
     public ProductRepository() {
-        productList.add(new Product(1, "Product 1", new BigDecimal(10)));
-        productList.add(new Product(2, "Product 2", new BigDecimal(18)));
-        productList.add(new Product(3, "Product 3", new BigDecimal(12)));
-        productList.add(new Product(4, "Product 4", new BigDecimal(20)));
-        productList.add(new Product(5, "Product 5", new BigDecimal(28)));
+        if (productModel.getAll().size() <= 0){
+            productModel.save(new Product(1, "Product 1", new BigDecimal(10)));
+            productModel.save(new Product(2, "Product 2", new BigDecimal(18)));
+            productModel.save(new Product(3, "Product 3", new BigDecimal(12)));
+            productModel.save(new Product(4, "Product 4", new BigDecimal(20)));
+            productModel.save(new Product(5, "Product 5", new BigDecimal(28)));
+        }
     }
 
     @Override
     public List<Product> findAll() {
-        return productList;
+        return productModel.getAll();
     }
 
     @Override
     public Product save(Product product) {
-        productList.add(product);
+        productModel.save(product);
         return product;
     }
 
     @Override
-    public Product update(Integer id, Product updateProduct) {
-        for (Product product : productList) {
-            if (product.getId().equals(id)) {
-                product.setName(updateProduct.getName());
-                product.setPrice(updateProduct.getPrice());
-                return updateProduct;
-            }
-        }
+    public Boolean update(Integer id, Product updateProduct) {
+        Product existProduct = productModel.findById(id);
 
-        return null;
+        existProduct.setName(updateProduct.getName());
+        existProduct.setPrice(updateProduct.getPrice());
+
+        return productModel.update(id, existProduct);
     }
 
     @Override
     public Boolean delete(Integer id) {
-        for (int i = 0; i < productList.size(); i++) {
-            if (productList.get(i).getId().equals(id)){
-                productList.remove(productList.get(i));
-                return true;
-            }
-        }
-
-        return false;
+        return productModel.delete(id);
     }
 
     @Override
     public Product findById(Integer id) {
-        for (Product product : productList) {
-            if (product.getId().equals(id)) {
-                return product;
-            }
-        }
-        return null;
+        return productModel.findById(id);
     }
 }
