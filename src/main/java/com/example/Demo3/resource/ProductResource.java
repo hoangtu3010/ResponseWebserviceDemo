@@ -41,7 +41,7 @@ public class ProductResource {
 
     @DELETE
     @Path("{id}")
-    public Boolean update(@PathParam("id") Integer id){
+    public Boolean delete(@PathParam("id") Integer id){
         return productRepository.delete(id);
     }
 }

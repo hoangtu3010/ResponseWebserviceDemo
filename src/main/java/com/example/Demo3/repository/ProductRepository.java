@@ -9,7 +9,9 @@ import java.util.List;
 public class ProductRepository implements IProductRepository{
     private final GenericModel<Product> productModel = new GenericModel<>(Product.class);
 
-    public ProductRepository() {
+
+    @Override
+    public List<Product> findAll() {
         if (productModel.getAll().size() <= 0){
             productModel.save(new Product(1, "Product 1", new BigDecimal(10)));
             productModel.save(new Product(2, "Product 2", new BigDecimal(18)));
@@ -17,10 +19,7 @@ public class ProductRepository implements IProductRepository{
             productModel.save(new Product(4, "Product 4", new BigDecimal(20)));
             productModel.save(new Product(5, "Product 5", new BigDecimal(28)));
         }
-    }
 
-    @Override
-    public List<Product> findAll() {
         return productModel.getAll();
     }
 
